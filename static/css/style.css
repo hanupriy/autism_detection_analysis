@@ -1,0 +1,285 @@
+/* Custom Styles for NeuroScreen */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fbff;
+    color: #334155;
+}
+
+/* Navbar Customization */
+.bg-primary {
+    background-color: #1a56db !important;
+}
+.navbar-brand {
+    letter-spacing: 0.5px;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #1a56db 0%, #3b82f6 100%);
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 8rem !important;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: #f8fbff;
+    transform: skewY(-2deg);
+}
+
+/* Form Styles */
+.form-control, .form-select {
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e1;
+    transition: all 0.2s;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.form-label {
+    color: #475569;
+    font-size: 0.95rem;
+}
+
+/* Score Cards */
+.ps-score-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ps-score-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+}
+
+.form-range::-webkit-slider-thumb {
+    background: #1a56db;
+}
+
+.badge-value {
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #1a56db;
+    border-color: #1a56db;
+}
+
+.btn-primary:hover {
+    background-color: #1e40af;
+    border-color: #1e40af;
+}
+
+/* Result Page Styles */
+.spacing-1 {
+    letter-spacing: 1px;
+}
+
+.text-success {
+    color: #16a34a !important;
+}
+
+.text-danger {
+    color: #dc2626 !important;
+}
+
+.alert-success {
+    background-color: #f0fdf4;
+    color: #166534;
+}
+
+.alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+}
+
+/* Circular Chart */
+.circular-chart {
+    display: block;
+    margin: 0 auto;
+    max-width: 80%;
+    max-height: 250px;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
+    }
+}
+
+.circular-chart.red .circle {
+    stroke: #dc2626;
+}
+
+.circular-chart.orange .circle {
+    stroke: #ea580c;
+}
+
+.circular-chart.green .circle {
+    stroke: #16a34a;
+}
+
+.percentage-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Chatbot Styles */
+.chatbot-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.chatbot-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #1a56db;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(26, 86, 219, 0.4);
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.chatbot-btn:hover {
+    transform: scale(1.1);
+}
+
+.chatbot-panel {
+    display: none;
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 350px;
+    height: 450px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.chatbot-header {
+    background-color: #1a56db;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-header h6 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.chatbot-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.chat-history {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #f8fbff;
+}
+
+.chat-msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 18px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.chat-user {
+    align-self: flex-end;
+    background-color: #1a56db;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-bot {
+    align-self: flex-start;
+    background-color: #e2e8f0;
+    color: #334155;
+    border-bottom-left-radius: 4px;
+}
+
+.chat-input-container {
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    border: 1px solid #cbd5e1;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.chat-input:focus {
+    border-color: #3b82f6;
+}
+
+.chat-submit {
+    background-color: #1a56db;
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.chat-submit:hover {
+    background-color: #1e40af;
+}

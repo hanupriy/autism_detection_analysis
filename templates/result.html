@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results - Autism Prediction System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-brain me-2"></i>NeuroScreen
+            </a>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/screening">
+                        <i class="fas fa-arrow-left me-1"></i> New Assessment
+                    </a>
+                </li>
+                {% if session.get('user_id') %}
+                <li class="nav-item ms-lg-3">
+                    <a class="btn btn-outline-light rounded-pill px-3 py-1 mt-1" href="/logout">Logout</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Results Section -->
+    <div class="container py-5">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold mb-3">Assessment Results</h2>
+                <p class="text-muted lead">Confidential ML Model Analysis Report</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Patient Overview -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm h-100 rounded-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle text-primary me-3">
+                                <i class="fas fa-user-circle fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0 fw-bold">{{ result.name }}</h5>
+                                <p class="text-muted mb-0 small">Patient ID: {{ result.date|replace(' ', '')|replace(':', '')|replace('-', '') }}</p>
+                            </div>
+                        </div>
+                        
+                        <ul class="list-group list-group-flush mt-4">
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                <span class="text-muted"><i class="fas fa-calendar-alt text-secondary me-2"></i>Age</span>
+                                <span class="fw-medium">{{ result.age }} Years</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                <span class="text-muted"><i class="fas fa-venus-mars text-secondary me-2"></i>Gender</span>
+                                <span class="fw-medium">{{ result.gender }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                <span class="text-muted"><i class="fas fa-clock text-secondary me-2"></i>Date Assessed</span>
+                                <span class="fw-medium">{{ result.date[:10] }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Prediction Result -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow h-100 rounded-4 overflow-hidden">
+                    <div class="card-body p-5">
+                        <div class="row">
+                            <div class="col-md-7 border-end pe-md-5">
+                                <p class="text-uppercase text-muted fw-bold small mb-2 spacing-1">Algorithm Conclusion</p>
+                                
+                                {% if result.risk_status == "High Risk" %}
+                                    <h1 class="display-3 fw-bold text-danger mb-3">High Risk</h1>
+                                    <p class="text-muted mb-4">The screening model has identified significant behavioral patterns consistent with autism spectrum traits.</p>
+                                    <div class="alert alert-danger border-0 d-flex align-items-center" role="alert">
+                                        <i class="fas fa-exclamation-circle fa-2x me-3"></i>
+                                        <div>
+                                            <h6 class="alert-heading mb-1 fw-bold">Professional Follow-up Strongly Recommended</h6>
+                                            <p class="mb-0 small">Please consult a verified medical neurodevelopmental specialist immediately.</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 p-3 bg-white border border-danger rounded-3 text-start">
+                                        <h6 class="fw-bold text-danger"><i class="fas fa-notes-medical me-2"></i>Recommended Actions</h6>
+                                        <p class="small mb-0">{{ result.treatment }}</p>
+                                    </div>
+                                {% elif result.risk_status == "Moderate Risk" %}
+                                    <h1 class="display-3 fw-bold text-warning mb-3" style="color: #ea580c !important;">Moderate Risk</h1>
+                                    <p class="text-muted mb-4">The screening model has identified some behavioral patterns consistent with autism spectrum traits.</p>
+                                    <div class="alert alert-warning border-0 d-flex align-items-center" role="alert" style="background-color: #fff7ed; color: #9a3412;">
+                                        <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                                        <div>
+                                            <h6 class="alert-heading mb-1 fw-bold">Further Evaluation Recommended</h6>
+                                            <p class="mb-0 small">Consider discussing these results with a pediatrician or developmental specialist.</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 p-3 bg-white border rounded-3 text-start" style="border-color: #ea580c !important;">
+                                        <h6 class="fw-bold" style="color: #ea580c;"><i class="fas fa-notes-medical me-2"></i>Recommended Actions</h6>
+                                        <p class="small mb-0">{{ result.treatment }}</p>
+                                    </div>
+                                {% else %}
+                                    <h1 class="display-3 fw-bold text-success mb-3">Low Risk</h1>
+                                    <p class="text-muted mb-4">The screening model did not identify significant behavioral patterns consistent with autism spectrum traits.</p>
+                                    <div class="alert alert-success border-0 d-flex align-items-center" role="alert">
+                                        <i class="fas fa-check-circle fa-2x me-3"></i>
+                                        <div>
+                                            <h6 class="alert-heading mb-1 fw-bold">Standard Monitoring</h6>
+                                            <p class="mb-0 small">Continue regular pediatric developmental checkups.</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 p-3 bg-white border border-success rounded-3 text-start">
+                                        <h6 class="fw-bold text-success"><i class="fas fa-notes-medical me-2"></i>Recommended Actions</h6>
+                                        <p class="small mb-0">{{ result.treatment }}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-5 ps-md-5 d-flex flex-column justify-content-center align-items-center text-center mt-4 mt-md-0">
+                                <div class="position-relative d-inline-block mb-3">
+                                    <svg viewBox="0 0 36 36" class="circular-chart {{ 'red' if result.risk_status == 'High Risk' else ('orange' if result.risk_status == 'Moderate Risk' else 'green') }}">
+                                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        <path class="circle" stroke-dasharray="{{ result.confidence }}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    </svg>
+                                    <div class="percentage-overlay fw-bold h2 mb-0">{{ result.confidence }}%</div>
+                                </div>
+                                <h6 class="fw-bold text-muted">Model Confidence Score</h6>
+                                <p class="small text-muted mb-0 mt-2">Accuracy probability of this specific prediction</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light border-0 p-4 text-center">
+                        <a href="/download/{{ result.pdf_filename }}" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
+                            <i class="fas fa-file-pdf me-2"></i> Download Official PDF Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5 g-4">
+            <div class="col-12">
+                <h4 class="fw-bold mb-4 border-bottom pb-2">Model Analytics</h4>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4 text-center">
+                        <h6 class="text-muted text-uppercase mb-4 fw-bold">Training Accuracy</h6>
+                        <img src="{{ url_for('serve_output', filename='accuracy_graph.png') }}" class="img-fluid rounded" alt="Accuracy Graph">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4 text-center">
+                        <h6 class="text-muted text-uppercase mb-4 fw-bold">Overall Data Distribution</h6>
+                        <img src="{{ url_for('serve_output', filename='prediction_results.png') }}" class="img-fluid rounded" alt="Prediction Results">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <button class="chatbot-btn" id="chatbotBtn">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+        <div class="chatbot-panel" id="chatbotPanel">
+            <div class="chatbot-header">
+                <h6><i class="fas fa-robot me-2"></i>NeuroScreen Assistant</h6>
+                <button class="chatbot-close" id="chatbotClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="chat-history" id="chatHistory">
+                <div class="chat-msg chat-bot">
+                    Hi! I'm here to help. Ask me about autism, behavioral scores (0-10), or treatments.
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your question...">
+                <button class="chat-submit" id="chatSubmit"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
